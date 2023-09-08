@@ -1,5 +1,7 @@
 package board;
 
+import GUI.GUI;
+
 import java.util.Random;
 
 public class Board {
@@ -7,29 +9,33 @@ public class Board {
     private int quantity;
     private int[][] sudoku_board = new int[this.quantity][this.quantity];
 
+    GUI sudokuGUI = new GUI();
+
+
     public Board(int quantity) {
         this.quantity = quantity;
         this.sudoku_board = new int[quantity][quantity];
-        System.out.println("Sudoku Iniciado!");
-
+        this.generateSudoku(quantity);
+        fillBoard();
+        this.sudokuGUI.setVisible(true);
     }
+
 
 
     public int showBoard() {
         return this.sudoku_board.length;
     }
 
-    //TODO: The conditionals of the loops need to be corrected and retested.
+
 
     public int[][] generateSudoku(int quantity) {
-        int[][] sudoku_board = new int[9][9];
         generateSudokuRecursive(sudoku_board, 0, 0);
         return sudoku_board;
     }
 
     private boolean generateSudokuRecursive(int[][] board, int row, int col) {
         if (row == 9) {
-            return true; // Hemos completado el Sudoku
+            return true;
         }
 
         int nextRow = (col == 8) ? row + 1 : row;
@@ -44,7 +50,7 @@ public class Board {
                 if (generateSudokuRecursive(board, nextRow, nextCol)) {
                     return true;
                 }
-                board[row][col] = 0; // Deshacer la asignación si no lleva a una solución
+                board[row][col] = 0; 
             }
         }
 
@@ -80,6 +86,23 @@ public class Board {
             arr[i] = temp;
         }
     }
+
+
+    private void fillBoard() {
+        Boolean state = false;
+        for(int i = 0; i < sudokuGUI.button.length; i++) {
+            for (int j = 0; j < sudokuGUI.button.length; j++) {
+               if(state) {
+                   sudokuGUI.button[i][j].setText(String.valueOf(this.sudoku_board[i][j]));
+                   state = false;
+               } else if (i %2!= 0) {
+                   state = true;
+                }
+            }
+        }
+    }
+
+
 
 }
 
