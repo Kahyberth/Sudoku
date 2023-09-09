@@ -2,22 +2,38 @@ package board;
 
 import GUI.GUI;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class Board {
+public class Board implements ActionListener {
 
     private int quantity;
+    private int attempts = 3;
+    private int score = 0;
     private int[][] sudoku_board = new int[this.quantity][this.quantity];
 
     GUI sudokuGUI = new GUI();
 
 
     public Board(int quantity) {
+        System.out.println("Sudoku Iniciado!!");
         this.quantity = quantity;
         this.sudoku_board = new int[quantity][quantity];
         this.generateSudoku(quantity);
         fillBoard();
         this.sudokuGUI.setVisible(true);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.sudokuGUI.field[i][j].addActionListener(this);
+            }
+        }
+
+        sudokuGUI.score.setText(String.valueOf(score));
+        sudokuGUI.attempts.setText(String.valueOf(attempts));
+        sudokuGUI.check.addActionListener(this);
     }
 
 
@@ -89,13 +105,16 @@ public class Board {
 
 
     private void fillBoard() {
-        Boolean state = false;
-        for(int i = 0; i < sudokuGUI.button.length; i++) {
-            for (int j = 0; j < sudokuGUI.button.length; j++) {
+        boolean state = false;
+        for(int i = 0; i < sudokuGUI.field.length; i++) {
+            for (int j = 0; j < sudokuGUI.field.length; j++) {
                if(state) {
-                   sudokuGUI.button[i][j].setText(String.valueOf(this.sudoku_board[i][j]));
+                   sudokuGUI.field[i][j].setText(String.valueOf(this.sudoku_board[i][j]));
+                   sudokuGUI.field[i][j].setForeground(Color.BLACK);
+                   sudokuGUI.field[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                    state = false;
                } else if (i %2!= 0) {
+
                    state = true;
                 }
             }
@@ -103,6 +122,38 @@ public class Board {
     }
 
 
+    public Boolean verify() {
 
+        for(int i = 0; i < sudokuGUI.field.length; i++){
+            for (int j = 0; j < sudokuGUI.field.length; j++) {
+                if (sudokuGUI.field[i][j].getText() != String.valueOf(this.sudoku_board[i][j])){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void attempts() {
+        attempts -= 1;
+        sudokuGUI.attempts.setText(String.valueOf(attempts));
+        if (attempts == 0) {
+            System.out.println("You lost try again!");
+            System.exit(0);
+        }
+        JOptionPane.showMessageDialog(null, "Intentalo nuevamente, Intentos: " + attempts + "\n");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == sudokuGUI.check) {
+            if (this.verify()) {
+                System.out.println("Congratulations you win!");
+            }
+            else {
+                attempts();
+            }
+        }
+    }
 }
 
