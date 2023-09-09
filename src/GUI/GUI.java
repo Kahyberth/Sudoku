@@ -6,8 +6,12 @@ import java.awt.*;
 public class GUI extends JFrame {
     Container contenedor;
 
-    public JButton [][] button = new JButton[9][9];
-    private JPanel dashBoard, cuadricula;
+    public JTextField [][] field = new JTextField[9][9];
+    public JTextField score, attempts;
+    private JPanel dashBoard, cuadricula, separador;
+    private JLabel attemptsLabel, scoreLabel;
+
+    public  JButton check;
 
     public GUI () {
         contenedor = getContentPane();
@@ -25,10 +29,38 @@ public class GUI extends JFrame {
 
     private void Dashboard() {
         dashBoard = new JPanel();
+
+        //Score
+        score = new JTextField();
+        score.setEnabled(false);
+        scoreLabel = new JLabel("Score");
+        scoreLabel.setForeground(Color.white);
+        scoreLabel.setBounds(90,460,50,50);
+        dashBoard.add(scoreLabel);
+        score.setBounds(90,500,50,30);
+
+        //Attempts
+        attempts = new JTextField();
+        attempts.setEnabled(false);
+        attemptsLabel = new JLabel("Attempts");
+        attemptsLabel.setBounds(440,460,50,50);
+        attemptsLabel.setForeground(Color.white);
+        dashBoard.add(attemptsLabel);
+        attempts.setBounds(440,500,50,30);
         dashBoard.setLayout(null);
-        //dashBoard.setBounds(0, 0, 250, 100);
+
+
+        //Check
+
+        check = new JButton("CHECK!");
+        check.setBounds(240,500,100,30);
+        check.setBackground(Color.white);
+        dashBoard.add(check);
+
         Color color = new Color(32,25,50);
         dashBoard.setBackground(color);
+        dashBoard.add(attempts);
+        dashBoard.add(score);
         contenedor.add(dashBoard);
     }
 
@@ -37,14 +69,20 @@ public class GUI extends JFrame {
 
         cuadricula = new JPanel();
         cuadricula.setBounds(90, 75, 400, 400);
+        separador = new JPanel();
+        
         cuadricula.setBackground(Color.black);
         cuadricula.setLayout(new GridLayout(9, 9, 4, 4));
+
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                button[i][j] = new JButton();
-                cuadricula.add(button[i][j]);
+                field[i][j] = new JTextField();
+                cuadricula.add(field[i][j]);
             }
         }
+
+
         dashBoard.add(cuadricula);
     }
 
