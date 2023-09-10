@@ -7,9 +7,9 @@ public class GUI extends JFrame {
     Container contenedor;
 
     public JTextField [][] field = new JTextField[9][9];
-    public JTextField score, attempts;
+    public JTextField attempts;
     private JPanel dashBoard, cuadricula, separador;
-    private JLabel attemptsLabel, scoreLabel;
+    private JLabel attemptsLabel;
 
     public  JButton check;
 
@@ -29,15 +29,6 @@ public class GUI extends JFrame {
 
     private void Dashboard() {
         dashBoard = new JPanel();
-
-        //Score
-        score = new JTextField();
-        score.setEnabled(false);
-        scoreLabel = new JLabel("Score");
-        scoreLabel.setForeground(Color.white);
-        scoreLabel.setBounds(90,460,50,50);
-        dashBoard.add(scoreLabel);
-        score.setBounds(90,500,50,30);
 
         //Attempts
         attempts = new JTextField();
@@ -60,7 +51,6 @@ public class GUI extends JFrame {
         Color color = new Color(32,25,50);
         dashBoard.setBackground(color);
         dashBoard.add(attempts);
-        dashBoard.add(score);
         contenedor.add(dashBoard);
     }
 

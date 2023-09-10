@@ -12,7 +12,7 @@ public class Board implements ActionListener {
 
     private int quantity;
     private int attempts = 3;
-    private int score = 0;
+
     private int[][] sudoku_board = new int[this.quantity][this.quantity];
 
     GUI sudokuGUI = new GUI();
@@ -30,8 +30,6 @@ public class Board implements ActionListener {
                 this.sudokuGUI.field[i][j].addActionListener(this);
             }
         }
-
-        sudokuGUI.score.setText(String.valueOf(score));
         sudokuGUI.attempts.setText(String.valueOf(attempts));
         sudokuGUI.check.addActionListener(this);
     }
